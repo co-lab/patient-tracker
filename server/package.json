@@ -1,0 +1,53 @@
+{
+  "name": "masaryk-patient-tracker-server",
+  "version": "0.1.0",
+  "description": "Backend of the system that manages patient data",
+  "main": "index.js",
+  "repository": "http://github.com/Masaryk/patient-tracker",
+  "author": "Lincoln Clarete",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "test": "eslint . && flow check $* && jest --coverage $*",
+    "clean": "rm -rf coverage dist tmp",
+    "dist": "babel **/*.js -d dist",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.32",
+    "@babel/preset-env": "^7.0.0-beta.32",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-jest": "^21.2.0",
+    "babel-polyfill": "^6.26.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-flow-vars": "^0.5.0",
+    "eslint-plugin-flowtype": "^2.39.1",
+    "eslint-plugin-import": "^2.8.0",
+    "flow-bin": "^0.59.0",
+    "flow-typed": "^2.2.3",
+    "jest": "^21.2.1",
+    "supertest": "^3.0.0"
+  },
+  "jest": {
+    "testRegex": "tests/.*/*.js",
+    "rootDir": ".",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "src/index.js"
+    ],
+    "collectCoverageFrom": [
+      "src/*.js",
+      "src/*/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules/.*",
+      "helpers.js"
+    ]
+  }
+}
