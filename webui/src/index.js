@@ -1,7 +1,8 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+import App from './app';
 
-import App from './app.js';
-import CustomCSS from './app.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import './styles.css';
 
-ReactDOM.render(App, document.getElementById('website-container'));
+ReactDOM.render(<App />, document.getElementById('website-container'));

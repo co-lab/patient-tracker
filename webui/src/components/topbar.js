@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import {
   Nav,
   Navbar,
@@ -13,14 +15,16 @@ export default () => (
   }}>
     <Navbar.Header>
       <Navbar.Brand>
-        <a style={{ color: '#fff' }} href="/">Patient Tracker</a>
+        <Link style={{ color: '#fff' }} to="/">Patient Tracker</Link>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>
 
     <Navbar.Collapse>
       <Nav>
-        <NavItem href="/#new-patient">New Patient</NavItem>
+        <LinkContainer to="/new-patient">
+          <NavItem>New Patient</NavItem>
+        </LinkContainer>
       </Nav>
 
       <Nav pullRight className="hidden-xs">
