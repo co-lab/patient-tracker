@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 export default () => (
-  <Navbar inverse collapseOnSelect className="navbar-fixed-top" style={{
+  <Navbar inverse collapseOnSelect fixedTop style={{
     background: '#204a87', borderRadius: 0,
   }}>
     <Navbar.Header>
@@ -38,8 +38,8 @@ export default () => (
           <NavItem>New Patient</NavItem>
         </LinkContainer>
       </Nav>
-      <Nav pullRight className="hidden-xs">
-        <NavItem href="http://co-lab.io">Masaryk Co-Lab</NavItem>
+      <Nav pullRight>
+        <NavItem>Logout</NavItem>
       </Nav>
     </Navbar.Collapse>
   </Navbar>
