@@ -42,5 +42,10 @@ module.exports = {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file-loader'
     }]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    port: 9000
   }
 };
