@@ -11,18 +11,7 @@ import {
   FormGroup,
 } from 'react-bootstrap';
 
-const capitalize = (s) => s.replace(/\b./g, (m) => m.toUpperCase());
-
-const TextField = ({ id, label, placeholder }) => (
-  <FormGroup controlId={id}>
-    <Col componentClass={ControlLabel} sm={3}>
-      {label || capitalize(id)}
-    </Col>
-    <Col sm={9}>
-      <FormControl type="text" placeholder={placeholder || capitalize(id)} />
-    </Col>
-  </FormGroup>
-);
+import TextField from '../components/TextField';
 
 const CheckboxField = ({ id, label }) => (
   <FormGroup controlId={id}>
@@ -78,6 +67,7 @@ export default () => (
           placeholder="Phone Number of the relative" />
 
         <hr />
+
         <FormGroup>
           <Col smOffset={3} sm={9}>
             <Button bsStyle="primary" type="submit">
