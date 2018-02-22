@@ -19,6 +19,8 @@
     "flowtype/require-return-type": [1, "always", {"excludeArrowFunctions": true}],
     "flow-vars/define-flow-type": 1,
     "flow-vars/use-flow-type": 1,
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "object-curly-newline": "off",
+    "function-paren-newline": "off"
   }
 }
