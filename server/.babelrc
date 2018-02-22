@@ -1,0 +1,14 @@
+{
+    "plugins": [
+        ["@babel/plugin-transform-modules-commonjs"],
+        ["@babel/plugin-transform-flow-strip-types"],
+        ["@babel/plugin-transform-async-to-generator"],
+        ["@babel/plugin-syntax-object-rest-spread", {
+            "useBuiltIns": true
+        }],
+        ["@babel/plugin-transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+        }]
+    ]
+}
