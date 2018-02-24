@@ -8,10 +8,12 @@ import nodemailer from 'nodemailer';
 import config, { env, isEnv } from '../config';
 import { promisify } from '../lib/promises';
 
+export const SITE_ADDRESS = 'info@co-lab.io';
+
 const dbg = debug('email');
 
 type SendOptionsType = {
-  from: string;
+  from: ?string;
   to: string;
   cc: ?string;
   bcc: ?string;
@@ -46,7 +48,8 @@ export async function send(options: SendOptionsType): Promise<Object> {
   dbg('sending email to ', to, 'bcc', bcc, 'text', text);
   if (isEnv('production')) {
     const info = await mailgun.sendMail({
-      from, cc, to, bcc, subject, text, html, headers, attachments });
+      from: from || emaillib.SITE_ADDRESS,
+      cc, to, bcc, subject, text, html, headers, attachments });
     dbg('email sent ', info);
     return info;
   }

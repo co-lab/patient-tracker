@@ -5,7 +5,14 @@ import type { UserType } from '../models/types';
 
 import config from '../config';
 import knex from '../models';
-import { isEmail } from './validators';
+import * as validationlib from './validation';
+import * as emaillib from './email';
+
+/* Acceptable values are described in the documentation of the library
+ * that receives this input:
+ * https://kjur.github.io/jsrsasign/api/symbols/KJUR.jws.IntDate.html#.get */
+export const EXPIRATION_LOGIN = '1hour';
+export const EXPIRATION_SESSION = '1month';
 
 export type JWTPayload = {
   sub: string,
@@ -24,16 +31,20 @@ export const newError = (m: string): AuthError => new AuthError(m);
 
 /** Creates new JWT tokens with user parameters in the payload
  *
- * @param {UserType} user that the token will be generated for.
+ * @param {String} id used as `aud` field in the generated token.
+ * @param {String} email used as `sub` in the generated token.
+ * @param {String} expiration to be summed up to `now` in `exp` in the
+ *  generated token. Acceptable values are
+ *  https://kjur.github.io/jsrsasign/api/symbols/KJUR.jws.IntDate.html#.get
  * @param {String} secret is the secret used to encrypt the
  *  token. Defaults to `config.auth.secret`.
  */
-export function createJWT(user: UserType, expiration: number, secret: string = config.auth.secret): string {
+export function createJWT(id: string, email: string, expiration: number, secret: string = config.auth.secret): string {
   const now = jsrsasign.jws.IntDate.get('now');
   const header = JSON.stringify({ alg: TOKEN_ALGO, typ: 'JWT' });
   const payload = JSON.stringify({
-    aud: user.id,
-    sub: user.email,
+    aud: id,
+    sub: email,
     nbf: now,
     iat: now,
     exp: jsrsasign.jws.IntDate.get(`now + ${expiration}`),
@@ -55,15 +66,23 @@ export function parseJWT(token: string, secret: string = config.auth.secret): JW
   }
 }
 
-/**  */
+/** Welcome the token or send an email with a login token */
 export async function welcomeOrSendEmail(tokenOrEmail: string): Promise<Object> {
   const { email, token } = tokenOrEmail;
-  if (isEmail(email)) {
+  if (email && validationlib.isEmail(email)) {
     const [user] = await knex('user').where({ email });
     if (!user) throw newError('User does not exist');
+    const token = createJWT(user.id, email, EXPIRATION_SESSION);
+    const link = `${config.site_url}/signin?token=${token}`
+    emaillib.send({ to: email, template: 'login', vars: { link }});
+    return {};
+  } else if (token) {
+    const { aud, sub } = parseJWT(token);
+    return { token: createJWT(aud, sub, EXPIRATION_SESSION) };
+  } else {
+    throw validationlib.newError('Incomplete request');
   }
 }
-
 
 /** Just retrieve the `jwt` attribute set by checkAuth middleware
    without getting flow mad. */

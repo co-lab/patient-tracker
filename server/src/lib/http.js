@@ -1,6 +1,6 @@
 // @flow
 import { AuthError } from '../lib/auth';
-import { ValidationError } from '../lib/validators';
+import { ValidationError } from '../lib/validation';
 
 /** Return the proper HTTP Error code based on the exception type */
 export function handleError(error: Error): number {

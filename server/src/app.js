@@ -15,6 +15,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(checkAuth({ except: ['/signin'] }));
 app.post('/signin', authControllers.signin);
+app.get('/signin', authControllers.signin);
 app.use('/graphql', graphqlHTTP({
   schema: Schema,
   rootValue: Root,
