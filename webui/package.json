@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Manage patient data",
   "main": "src/index.js",
-  "repository": "github.com/Masaryk/patient-tracker",
+  "repository": "github.com/co-lab/patient-tracker",
   "author": "Lincoln de Sousa <lincoln@clarete.li>",
   "license": "AGPL-3.0",
   "devDependencies": {
