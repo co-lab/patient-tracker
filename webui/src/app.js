@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import TopBar from './components/topbar';
+import TopBar from './components/TopBar';
 import PatientList from './screens/PatientList';
 import NewPatient from './screens/NewPatient';
 import NotFound from './screens/NotFound';
