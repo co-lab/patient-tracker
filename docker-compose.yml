@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: foo
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  api:
+    build: server
+    command: "npm start"
+    environment:
+      NODE_ENV: "development"
+    links:
+      - mysql:mysql
+    ports:
+      - "8001:8001"
