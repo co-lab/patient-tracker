@@ -7,9 +7,10 @@
   "author": "Lincoln de Sousa <lincoln@clarete.li>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/preset-env": "^7.0.0-beta.32",
-    "@babel/preset-react": "^7.0.0-beta.32",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/polyfill": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
     "babel-loader": "8.0.0-beta.0",
     "bootstrap": "^3.3.7",
     "css-loader": "^0.28.7",
