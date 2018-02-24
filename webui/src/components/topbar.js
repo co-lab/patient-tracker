@@ -9,6 +9,8 @@ import {
   MenuItem,
 } from 'react-bootstrap';
 
+import { isLoggedIn } from '../lib/auth';
+
 export default () => (
   <Navbar inverse collapseOnSelect fixedTop style={{
     background: '#204a87', borderRadius: 0,
@@ -26,21 +28,22 @@ export default () => (
           <div style={{ paddingLeft: 40, color: '#fff' }}>mpt</div>
         </Link>
       </Navbar.Brand>
-      <Navbar.Toggle />
+      { isLoggedIn() && <Navbar.Toggle /> }
     </Navbar.Header>
 
-    <Navbar.Collapse>
-      <Nav>
-        <LinkContainer to="/" exact>
-          <NavItem>All Patients</NavItem>
-        </LinkContainer>
-        <LinkContainer to="/new-patient">
-          <NavItem>New Patient</NavItem>
-        </LinkContainer>
-      </Nav>
-      <Nav pullRight>
-        <NavItem>Logout</NavItem>
-      </Nav>
-    </Navbar.Collapse>
+    { isLoggedIn() &&
+      <Navbar.Collapse>
+        <Nav>
+          <LinkContainer to="/" exact>
+            <NavItem>All Patients</NavItem>
+          </LinkContainer>
+          <LinkContainer to="/new-patient">
+            <NavItem>New Patient</NavItem>
+          </LinkContainer>
+        </Nav>
+        <Nav pullRight>
+          <NavItem>Logout</NavItem>
+        </Nav>
+      </Navbar.Collapse> }
   </Navbar>
 );
