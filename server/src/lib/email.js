@@ -44,8 +44,12 @@ export async function send(options: SendOptionsType): Promise<Object> {
   const tag = isEnv('production') ? options.tag : `${env}.${options.tag || template}`;
   const headers = { 'X-Mailgun-Tag': tag, 'X-Mailgun-Dkim': 'yes' };
   dbg('sending email to ', to, 'bcc', bcc, 'text', text);
-  const info = await mailgun.sendMail({
-    from, cc, to, bcc, subject, text, html, headers, attachments });
-  dbg('email sent ', info);
-  return info;
+  if (isEnv('production')) {
+    const info = await mailgun.sendMail({
+      from, cc, to, bcc, subject, text, html, headers, attachments });
+    dbg('email sent ', info);
+    return info;
+  }
+  dbg('email', html || text);
+  return {};
 }
