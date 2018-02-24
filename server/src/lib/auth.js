@@ -57,13 +57,11 @@ export function parseJWT(token: string, secret: string = config.auth.secret): JW
 
 /**  */
 export async function welcomeOrSendEmail(tokenOrEmail: string): Promise<Object> {
-  if (isEmail(tokenOrEmail)) {
-    const [user] = await knex('user').where({ email: tokenOrEmail });
-    if (user === undefined) throw newError('User does not exist');
-    /* email.send('signin', createJWT(user)) */
-    return { status: 'Email sent' };
+  const { email, token } = tokenOrEmail;
+  if (isEmail(email)) {
+    const [user] = await knex('user').where({ email });
+    if (!user) throw newError('User does not exist');
   }
-  return { status: 'ok', token: createJWT };
 }
 
 

@@ -13,12 +13,12 @@ const app = express();
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(checkAuth({ except: ['/auth/signin'] }));
-app.get('/auth/signin', authControllers.signin);
+app.use(checkAuth({ except: ['/signin'] }));
+app.post('/signin', authControllers.signin);
 app.use('/graphql', graphqlHTTP({
   schema: Schema,
   rootValue: Root,
-  graphiql: isEnv('dev'),
+  graphiql: isEnv('development'),
 }));
 
 export default app;

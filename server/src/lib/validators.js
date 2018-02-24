@@ -44,7 +44,7 @@ export function isSize(input: any, min: number, max: number): mixed {
  */
 export function isEmail(input: mixed): string {
   const [min, max] = [VAL_EMAIL_MIN, VAL_EMAIL_MAX];
-  const stringInput = isString(isSize(input, min, max));
+  const stringInput = isSize(isString(input), min, max);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(stringInput)) {
     throw newError('Invalid Email address');
   }
