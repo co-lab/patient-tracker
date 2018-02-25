@@ -5,10 +5,7 @@ import {
   Row,
   Col,
   Button,
-  ControlLabel,
-  Checkbox,
   Form,
-  FormControl,
   FormGroup,
 } from 'react-bootstrap';
 
@@ -59,8 +56,8 @@ export default class SignIn extends React.Component {
           <Row>
             <Col md={12}>
               <Alert bsStyle="warning">
-                <strong>Oh no!</strong> we couldn't get you in.
-                There's an error using this email address:
+                <strong>Oh no!</strong> we couldn&#39;t get you in.
+                There&#39;s an error using this email address:
                 {' '}
                 <strong>{this.state.error}</strong>
               </Alert>

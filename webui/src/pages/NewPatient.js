@@ -4,10 +4,8 @@ import {
   Row,
   Col,
   Button,
-  ControlLabel,
   Checkbox,
   Form,
-  FormControl,
   FormGroup,
 } from 'react-bootstrap';
 

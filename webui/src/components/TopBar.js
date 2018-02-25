@@ -5,8 +5,6 @@ import {
   Nav,
   Navbar,
   NavItem,
-  NavDropdown,
-  MenuItem,
 } from 'react-bootstrap';
 
 import { isLoggedIn } from '../lib/auth';
