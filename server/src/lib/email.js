@@ -1,12 +1,13 @@
 // @flow
 import fs from 'fs';
 import path from 'path';
+import { promisify } from 'util';
+
 import debug from 'debug';
 import Handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 
 import config, { env, isEnv } from '../config';
-import { promisify } from '../lib/promises';
 
 export const SITE_ADDRESS = 'info@co-lab.io';
 
@@ -25,10 +26,10 @@ type SendOptionsType = {
 };
 
 export async function readTemplateIfExists(name: string, context: any): Promise<string> {
-  const moduleDir = path.dirname((module: any).path);
-  const relativePath = path.join(moduleDir, '..', '..', 'templates', 'email', name);
-  const source = await promisify(fs.readFile, [path.normalize(relativePath)]);
-  const template = Handlebars.compile(source);
+  const moduleDir = path.dirname((module: any).filename);
+  const filePath = path.join(moduleDir, '..', '..', 'templates', 'email', name);
+  const source = await promisify(fs.readFile)(filePath);
+  const template = Handlebars.compile(source.toString());
   return template(context);
 }
 
@@ -40,27 +41,32 @@ export async function readEmailTemplate(name: string, context: any): Promise<{ t
 }
 
 export async function send(options: SendOptionsType): Promise<Object> {
-  const mailgun = nodemailer.createTransport(config.nodemailer);
   const { from, to, cc, bcc, subject, template, attachments, vars } = options;
   const { html, text } = await readEmailTemplate(template, vars);
   const tag = isEnv('production') ? options.tag : `${env}.${options.tag || template}`;
   const headers = { 'X-Mailgun-Tag': tag, 'X-Mailgun-Dkim': 'yes' };
+  const mailgun = nodemailer.createTransport(config.nodemailer);
   dbg('sending email to ', to, 'bcc', bcc, 'text', text);
-  if (isEnv('production')) {
-    const info = await mailgun.sendMail({
-      from: from || SITE_ADDRESS,
-      cc,
-      to,
-      bcc,
-      subject,
-      text,
-      html,
-      headers,
-      attachments,
-    });
-    dbg('email sent ', info);
-    return info;
+  const emailOptions = {
+    from: from || SITE_ADDRESS,
+    cc,
+    to,
+    bcc,
+    subject,
+    text,
+    html,
+    headers,
+    attachments,
+  };
+  if (isEnv('production') || process.env.SEND_EMAIL) {
+    try {
+      const info = await mailgun.sendMail(emailOptions);
+      dbg('email sent ', info);
+      return info;
+    } catch (error) {
+      dbg('error sending email ', error);
+    }
   }
-  dbg('email', html || text);
+  dbg('email', text || html);
   return {};
 }
