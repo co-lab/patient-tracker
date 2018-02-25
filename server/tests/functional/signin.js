@@ -35,13 +35,15 @@ describe('POST /signin - Endpoint to Sign-In users', () => {
     });
 
     describe('@database', () => {
-      let jsrsasignStub, emaillibMock;
+      let jsrsasignStub;
+      let emaillibMock;
 
       beforeEach(async () => {
         await knexCleaner.clean(knex);
         emaillibMock = sinon.mock(emaillib);
-        jsrsasignStub = sinon.stub(jsrsasign.jws.JWS, 'sign')
-                             .callsFake(() => 'TOKEN');
+        jsrsasignStub = sinon
+          .stub(jsrsasign.jws.JWS, 'sign')
+          .callsFake(() => 'TOKEN');
       });
 
       afterEach(() => {
@@ -58,7 +60,7 @@ describe('POST /signin - Endpoint to Sign-In users', () => {
         emaillibMock.expects('send').once().withArgs({
           to: 'foo@blah.com',
           template: 'login',
-          vars: { link: 'http://localhost:8000/signin?token=TOKEN' }
+          vars: { link: 'http://localhost:8000/signin?token=TOKEN' },
         });
 
         // When a login attempt happens with that user

@@ -72,16 +72,15 @@ export async function welcomeOrSendEmail(tokenOrEmail: string): Promise<Object> 
   if (email && validationlib.isEmail(email)) {
     const [user] = await knex('user').where({ email });
     if (!user) throw newError('User does not exist');
-    const token = createJWT(user.id, email, EXPIRATION_SESSION);
-    const link = `${config.site_url}/signin?token=${token}`
-    emaillib.send({ to: email, template: 'login', vars: { link }});
+    const sessionToken = createJWT(user.id, email, EXPIRATION_SESSION);
+    const link = `${config.site_url}/signin?token=${sessionToken}`;
+    emaillib.send({ to: email, template: 'login', vars: { link } });
     return {};
   } else if (token) {
     const { aud, sub } = parseJWT(token);
     return { token: createJWT(aud, sub, EXPIRATION_SESSION) };
-  } else {
-    throw validationlib.newError('Incomplete request');
   }
+  throw validationlib.newError('Incomplete request');
 }
 
 /** Just retrieve the `jwt` attribute set by checkAuth middleware

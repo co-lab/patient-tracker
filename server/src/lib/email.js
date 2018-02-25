@@ -48,8 +48,16 @@ export async function send(options: SendOptionsType): Promise<Object> {
   dbg('sending email to ', to, 'bcc', bcc, 'text', text);
   if (isEnv('production')) {
     const info = await mailgun.sendMail({
-      from: from || emaillib.SITE_ADDRESS,
-      cc, to, bcc, subject, text, html, headers, attachments });
+      from: from || SITE_ADDRESS,
+      cc,
+      to,
+      bcc,
+      subject,
+      text,
+      html,
+      headers,
+      attachments,
+    });
     dbg('email sent ', info);
     return info;
   }
