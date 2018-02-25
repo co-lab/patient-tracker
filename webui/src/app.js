@@ -2,10 +2,10 @@ import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import TopBar from './components/TopBar';
-import PatientList from './screens/PatientList';
-import NewPatient from './screens/NewPatient';
-import NotFound from './screens/NotFound';
-import SignIn from './screens/SignIn';
+import PatientList from './pages/PatientList';
+import NewPatient from './pages/NewPatient';
+import NotFound from './pages/NotFound';
+import SignIn from './pages/SignIn';
 
 import { isLoggedIn } from './lib/auth';
 
